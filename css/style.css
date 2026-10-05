@@ -486,8 +486,6 @@
     pointer-events: none; z-index: 0;
   }
 
-  }
-
   /* --- 结算画面 --- */
   #settleOverlay {
     position: absolute; inset: 0;
@@ -718,7 +716,7 @@ canvas { position: absolute; inset: 0px; width: 1280px; height: 720px; backgroun
 .talent-node.support-branch .t-progress i { background: linear-gradient(90deg, rgb(185, 246, 202), rgb(0, 230, 118)); }
 .talent-node.crown .t-progress i { background: linear-gradient(90deg, rgb(225, 190, 231), rgb(213, 0, 249)); }
 .talent-svg-links { position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-#codexView { display: none; flex-direction: column; align-items: center; touch-action: pan-y !important; }
+#codexView, #enhCodexView { display: none; flex-direction: column; align-items: center; touch-action: pan-y !important; }
 #codexView h1 { font-size: 36px; background: linear-gradient(135deg, rgb(255, 158, 203), rgb(255, 209, 102), rgb(130, 233, 255), rgb(185, 246, 202)) text; color: transparent; letter-spacing: 6px; margin-bottom: 6px; text-shadow: rgba(255, 209, 102, 0.2) 0px 0px 40px; }
 .codex-sub { color: rgb(142, 160, 201); font-size: 12.5px; letter-spacing: 1px; margin-bottom: 14px; padding: 4px 12px; border-radius: 999px; background: rgba(130, 233, 255, 0.06); border: 1px dashed rgba(130, 233, 255, 0.25); }
 .codex-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; max-width: 1200px; max-height: 504px; overflow-y: auto; padding: 4px 10px 10px 4px; margin-bottom: 18px; touch-action: pan-y !important; -webkit-overflow-scrolling: touch; }
@@ -802,9 +800,40 @@ canvas { position: absolute; inset: 0px; width: 1280px; height: 720px; backgroun
 .codex-stat .bar i { display: block; height: 100%; background: linear-gradient(90deg, rgb(130, 233, 255), rgb(91, 75, 255)); border-radius: 999px; }
 .codex-card.boss .codex-stat .bar i { background: linear-gradient(90deg, rgb(255, 138, 101), rgb(255, 209, 102)); }
 .codex-stat-value { color: rgb(230, 237, 255); font-family: Consolas, monospace; font-size: 11px; min-width: 46px; text-align: right; }
+/* 强化图鉴：文字属性行 —— 与怪物图鉴同构：固定宽标签在左、内容在右的单行横向布局。
+   强化效果为长句描述，属性区改单列（每行占满卡片宽度），避免两列网格挤压文字 */
+#enhCodexView .codex-stats { grid-template-columns: 1fr; }
+#enhCodexView .codex-stat { flex-wrap: nowrap; align-items: flex-start; }
+#enhCodexView .codex-stat-label { min-width: 58px; flex: 0 0 58px; padding-top: 1px; color: rgb(142, 160, 201); }
+#enhCodexView .codex-stat-value { font-family: inherit; min-width: 0; flex: 1 1 auto; text-align: left; color: rgb(230, 237, 255); line-height: 1.5; }
 .codex-mech { margin-top: 9px; padding: 7px 10px; border-radius: 8px; background: rgba(255, 224, 130, 0.07); border: 1px dashed rgba(255, 224, 130, 0.3); }
 .codex-mech-title { font-size: 11px; color: rgb(255, 209, 102); letter-spacing: 1.5px; margin-bottom: 4px; font-weight: 600; }
 .codex-mech-text { font-size: 11.5px; color: rgb(230, 237, 255); line-height: 1.6; }
+.enh-icon { width: 52px; height: 52px; border-radius: 12px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10); display: flex; align-items: center; justify-content: center; font-size: 27px; flex-shrink: 0; }
+.enh-rarity { font-size: 10.5px; padding: 2px 9px; border-radius: 999px; border: 1px solid; letter-spacing: 1px; white-space: nowrap; background: rgba(255,255,255,0.06); }
+.enh-max { font-size: 10.5px; color: rgb(142, 160, 201); margin-top: 3px; letter-spacing: 0.5px; }
+.enh-cond, .enh-eff { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; line-height: 1.65; color: rgb(198, 212, 240); margin-top: 8px; }
+.enh-cond-title, .enh-eff-title { flex-shrink: 0; font-weight: 700; font-size: 11px; letter-spacing: 1px; }
+.enh-cond-title { color: rgb(130, 233, 255); }
+.enh-eff-title { color: rgb(255, 209, 102); }
+.enh-eff { color: rgb(230, 237, 255); }
+.enh-group-header { grid-column: 1 / -1; font-size: 15px; font-weight: 700; letter-spacing: 2px; padding: 4px 0 2px 10px; border-left: 4px solid rgb(255, 209, 102); margin-top: 4px; }
+.enh-levels { margin-top: 8px; padding: 7px 10px; border-radius: 8px; background: rgba(130, 233, 255, 0.06); border: 1px dashed rgba(130, 233, 255, 0.22); }
+.enh-levels-title { font-size: 11px; color: rgb(130, 233, 255); letter-spacing: 1.5px; margin-bottom: 5px; font-weight: 600; }
+.enh-level-row { display: flex; align-items: center; gap: 8px; font-size: 11.5px; line-height: 1.6; color: rgb(210, 220, 245); }
+.enh-level-tag { flex-shrink: 0; font-family: Consolas, monospace; font-size: 10px; padding: 1px 6px; border-radius: 4px; background: rgba(255,255,255,0.08); color: rgb(255, 209, 102); }
+.enh-mat { margin-top: 7px; padding: 6px 10px; border-radius: 8px; background: rgba(198, 160, 255, 0.07); border: 1px dashed rgba(198, 160, 255, 0.28); font-size: 11.5px; line-height: 1.6; color: rgb(215, 195, 250); }
+.enh-mat-title { color: rgb(201, 168, 255); font-weight: 700; font-size: 11px; letter-spacing: 1px; }
+.enh-rate { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; padding: 2px 8px; border-radius: 999px; background: rgba(158, 211, 106, 0.12); border: 1px solid rgba(158, 211, 106, 0.4); color: rgb(158, 211, 106); }
+.enh-special { margin-top: 7px; padding: 6px 10px; border-radius: 8px; background: rgba(255, 138, 101, 0.08); border: 1px dashed rgba(255, 138, 101, 0.3); }
+.enh-special-title { font-size: 11px; color: rgb(255, 138, 101); letter-spacing: 1.5px; margin-bottom: 3px; font-weight: 600; }
+.enh-special-text { font-size: 11.5px; color: rgb(255, 200, 180); line-height: 1.6; }
+.resonance-section-header { grid-column: 1 / -1; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; padding: 6px 0 2px 12px; margin-top: 6px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 8px; }
+.resonance-section-header .dot { width: 8px; height: 8px; border-radius: 50%; }
+/* 强化卡片详情：默认完全显示 */
+.enh-detail { opacity: 1; margin-top: 8px; }
+.codex-card { transition: transform 0.18s, box-shadow 0.18s; }
+.codex-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(130, 233, 255, 0.15); }
 @media (max-aspect-ratio: 1/1) {
   .codex-grid { grid-template-columns: repeat(2, 1fr); }
 }
@@ -948,7 +977,7 @@ canvas { position: absolute; inset: 0px; width: 1280px; height: 720px; backgroun
 .trae-editor-submit-icon { display: flex; align-items: center; justify-content: center; width: 12px; height: 12px; color: var(--trae-icon-onaccent); flex-shrink: 0; }
 .trae-success-view { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0px 12px; height: 32px; white-space: nowrap; }
 .trae-success-icon { display: flex; align-items: center; justify-content: center; width: 16px; height: 16px; color: var(--trae-status-success); flex-shrink: 0; }
-.trae-success-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 400; line-height: 18px; color: var(--trae-text-default); user-select: none; }</style><style data-trae-pptx-captured-css="true">* { box-sizing: border-box; margin: 0px; padding: 0px; }
+.trae-success-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 400; line-height: 18px; color: var(--trae-text-default); user-select: none; } * { box-sizing: border-box; margin: 0px; padding: 0px; }
 html, body { width: 100%; height: 100%; background: rgb(11, 13, 26); color: rgb(232, 236, 241); font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; overflow: hidden; user-select: none; }
 #gameWrap { position: relative; width: 100vw; height: 100vh; overflow: hidden; background: rgb(7, 9, 22); }
 #stage { position: absolute; top: 50%; left: 50%; width: 1280px; height: 720px; transform-origin: 50% 50%; background: transparent; }
@@ -1086,7 +1115,7 @@ canvas { position: absolute; inset: 0px; width: 1280px; height: 720px; backgroun
 .talent-node.support-branch .t-progress i { background: linear-gradient(90deg, rgb(185, 246, 202), rgb(0, 230, 118)); }
 .talent-node.crown .t-progress i { background: linear-gradient(90deg, rgb(225, 190, 231), rgb(213, 0, 249)); }
 .talent-svg-links { position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-#codexView { display: none; flex-direction: column; align-items: center; touch-action: pan-y !important; }
+#codexView, #enhCodexView { display: none; flex-direction: column; align-items: center; touch-action: pan-y !important; }
 #codexView h1 { font-size: 36px; background: linear-gradient(135deg, rgb(255, 158, 203), rgb(255, 209, 102), rgb(130, 233, 255), rgb(185, 246, 202)) text; color: transparent; letter-spacing: 6px; margin-bottom: 6px; text-shadow: rgba(255, 209, 102, 0.2) 0px 0px 40px; }
 .codex-sub { color: rgb(142, 160, 201); font-size: 12.5px; letter-spacing: 1px; margin-bottom: 14px; padding: 4px 12px; border-radius: 999px; background: rgba(130, 233, 255, 0.06); border: 1px dashed rgba(130, 233, 255, 0.25); }
 .codex-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; max-width: 1200px; max-height: 504px; overflow-y: auto; padding: 4px 10px 10px 4px; margin-bottom: 18px; touch-action: pan-y !important; -webkit-overflow-scrolling: touch; }
@@ -1407,7 +1436,7 @@ canvas { position: absolute; inset: 0px; width: 1280px; height: 720px; backgroun
 .talent-node.support-branch .t-progress i { background: linear-gradient(90deg, rgb(185, 246, 202), rgb(0, 230, 118)); }
 .talent-node.crown .t-progress i { background: linear-gradient(90deg, rgb(225, 190, 231), rgb(213, 0, 249)); }
 .talent-svg-links { position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-#codexView { display: none; flex-direction: column; align-items: center; touch-action: pan-y !important; }
+#codexView, #enhCodexView { display: none; flex-direction: column; align-items: center; touch-action: pan-y !important; }
 #codexView h1 { font-size: 36px; background: linear-gradient(135deg, rgb(255, 158, 203), rgb(255, 209, 102), rgb(130, 233, 255), rgb(185, 246, 202)) text; color: transparent; letter-spacing: 6px; margin-bottom: 6px; text-shadow: rgba(255, 209, 102, 0.2) 0px 0px 40px; }
 .codex-sub { color: rgb(142, 160, 201); font-size: 12.5px; letter-spacing: 1px; margin-bottom: 14px; padding: 4px 12px; border-radius: 999px; background: rgba(130, 233, 255, 0.06); border: 1px dashed rgba(130, 233, 255, 0.25); }
 .codex-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; max-width: 1200px; max-height: 504px; overflow-y: auto; padding: 4px 10px 10px 4px; margin-bottom: 18px; touch-action: pan-y !important; -webkit-overflow-scrolling: touch; }
@@ -1699,6 +1728,8 @@ canvas { position: absolute; inset: 0px; width: 1280px; height: 720px; backgroun
 /* 图鉴卡片整体缩小：宽窗由 3 列改 4 列，卡片内头像/字体/间距同步收紧（窄窗仍走 2/1 列降级） */
 @media all {
   #codexView .codex-grid:not(.tree-mode) { grid-template-columns: repeat(4, 1fr) !important; }
+  #enhCodexView .codex-grid:not(.tree-mode) { grid-template-columns: repeat(4, 1fr) !important; }
+  #enhCodexView .res-cards { grid-template-columns: repeat(4, 1fr) !important; }
 }
 #codexView .codex-card { padding: 7px 9px 8px !important; }
 #codexView .codex-card-header { gap: 6px !important; }
@@ -2454,7 +2485,8 @@ body.portrait-ui.menu-parchment #menuOverlay #classSelectView,
 body.portrait-ui.menu-parchment #menuOverlay #weaponView,
 body.portrait-ui.menu-parchment #menuOverlay #altarView,
 body.portrait-ui.menu-parchment #menuOverlay #talentView,
-body.portrait-ui.menu-parchment #menuOverlay #codexView {
+body.portrait-ui.menu-parchment #menuOverlay #codexView,
+body.portrait-ui.menu-parchment #menuOverlay #enhCodexView {
   margin: 0 !important;
   width: 100% !important; height: 100% !important;
   max-height: none !important;
@@ -2468,7 +2500,8 @@ body.portrait-ui.menu-parchment #menuOverlay #classSelectView h1,
 body.portrait-ui.menu-parchment #menuOverlay #weaponView h1,
 body.portrait-ui.menu-parchment #menuOverlay #altarView h1,
 body.portrait-ui.menu-parchment #menuOverlay #talentView h1,
-body.portrait-ui.menu-parchment #menuOverlay #codexView h1 {
+body.portrait-ui.menu-parchment #menuOverlay #codexView h1,
+body.portrait-ui.menu-parchment #menuOverlay #enhCodexView h1 {
   font-size: 24px !important;
   letter-spacing: 3px !important; line-height: 1.2 !important;
   margin: 0 0 2px !important; white-space: nowrap !important;
@@ -2477,7 +2510,8 @@ body.portrait-ui.menu-parchment #menuOverlay #classSelectView .tagline,
 body.portrait-ui.menu-parchment #menuOverlay #weaponView .tagline,
 body.portrait-ui.menu-parchment #menuOverlay #altarView .tagline,
 body.portrait-ui.menu-parchment #menuOverlay #talentView .tagline,
-body.portrait-ui.menu-parchment #menuOverlay #codexView .tagline {
+body.portrait-ui.menu-parchment #menuOverlay #codexView .tagline,
+body.portrait-ui.menu-parchment #menuOverlay #enhCodexView .tagline {
   font-size: 11px !important; letter-spacing: 1.4px !important;
   line-height: 1.4 !important; margin: 0 0 7px !important; white-space: normal !important;
 }
@@ -2487,7 +2521,8 @@ body.portrait-ui.menu-parchment #classSelectView .menu-buttons,
 body.portrait-ui.menu-parchment #weaponView .menu-buttons,
 body.portrait-ui.menu-parchment #altarView .menu-buttons,
 body.portrait-ui.menu-parchment #talentView .menu-buttons,
-body.portrait-ui.menu-parchment #codexView .menu-buttons {
+body.portrait-ui.menu-parchment #codexView .menu-buttons,
+body.portrait-ui.menu-parchment #enhCodexView .menu-buttons {
   flex-direction: column !important; flex-wrap: nowrap !important;
   gap: 9px !important; width: 100% !important; max-width: 460px !important;
   margin: 10px auto 0 !important; flex: 0 0 auto !important;
@@ -2496,7 +2531,8 @@ body.portrait-ui.menu-parchment #classSelectView .menu-buttons .btn,
 body.portrait-ui.menu-parchment #weaponView .menu-buttons .btn,
 body.portrait-ui.menu-parchment #altarView .menu-buttons .btn,
 body.portrait-ui.menu-parchment #talentView .menu-buttons .btn,
-body.portrait-ui.menu-parchment #codexView .menu-buttons .btn {
+body.portrait-ui.menu-parchment #codexView .menu-buttons .btn,
+body.portrait-ui.menu-parchment #enhCodexView .menu-buttons .btn {
   width: 100% !important; min-height: 45px !important;
   font-size: 15.5px !important; letter-spacing: 4px !important;
   padding: 8px 12px !important; border-radius: 11px !important;
@@ -2614,7 +2650,8 @@ body.portrait-ui.menu-parchment #codexView .ctab {
   padding: 8px 2px !important; font-size: 11px !important; letter-spacing: .5px !important;
   white-space: nowrap !important; display: flex !important; align-items: center !important; justify-content: center !important;
 }
-body.portrait-ui.menu-parchment #codexView .codex-grid {
+body.portrait-ui.menu-parchment #codexView .codex-grid,
+body.portrait-ui.menu-parchment #enhCodexView .codex-grid {
   grid-template-columns: 1fr !important;
   width: 100% !important; max-width: 560px !important;
   max-height: none !important; overflow: visible !important;
@@ -2995,6 +3032,7 @@ html body.landscape-ui #classSelectView .menu-buttons .btn { flex: 1 1 auto !imp
 /* 天赋/武器/图鉴/修炼：铺满可滚动、紧凑间距 */
 html body.landscape-ui #talentView,
 html body.landscape-ui #codexView,
+html body.landscape-ui #enhCodexView,
 html body.landscape-ui #altarView {
   width: 100% !important; height: 100% !important;
   overflow: auto !important; -webkit-overflow-scrolling: touch;
@@ -3014,3 +3052,291 @@ html body.landscape-ui .zone-header .tagline { font-size: 9px; letter-spacing: 1
   #joyBase { position: absolute; left: 0; top: 0; transform: translate(-50%, -50%); width: 132px; height: 132px; border-radius: 50%; border: 2px solid rgba(140,170,255,0.55); background: rgba(20,28,55,0.35); box-shadow: 0 0 26px rgba(60,100,220,0.35); }
   #joyStick { position: absolute; left: 0; top: 0; transform: translate(-50%, -50%); width: 60px; height: 60px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #8fb6ff, #3a5bbf); border: 2px solid rgba(255,255,255,0.55); box-shadow: 0 4px 14px rgba(0,0,0,0.45); }
   #rotateHint { position: fixed; inset: 0; z-index: 60; display: none; align-items: center; justify-content: center; text-align: center; background: rgba(5,8,18,0.94); color: #c5d1eb; font-size: 17px; line-height: 1.9; padding: 28px; }
+
+/* =============================================================
+   🌗 羊皮纸背景可读性修正：直接叠在浅色羊皮纸背景上的文字改为深色。
+   仅影响菜单各视图的标题/标语/金币栏；对局内 HUD、深色面板
+   （立绘信息板/提示框/按钮/关卡地图标题板）内文字不受影响。
+   规则置于文件末尾：与既有重复块同特异性时，靠源顺序取胜。
+   ============================================================= */
+#menuOverlay h1,
+#classSelectView h1,
+#talentView h1,
+#weaponView h1,
+#altarView h1,
+#codexView h1,
+#enhCodexView h1 {
+  background: linear-gradient(135deg, #6b3a12 0%, #8a2a10 36%, #7a1f3d 68%, #3d2a6d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 5px rgba(90, 60, 20, 0.35));
+  text-shadow: none;
+}
+#menuOverlay .tagline,
+#classSelectView .tagline,
+#talentView .tagline,
+#weaponView .tagline,
+#altarView .tagline,
+#codexView .tagline,
+#enhCodexView .tagline {
+  color: #5a4326;
+  text-shadow: none;
+}
+#menuCoins {
+  color: #7a4a10;
+  text-shadow: none;
+}
+
+/* =============================================================
+   📖 强化图鉴（羊皮纸背景）可读性 + 卡片防塌缩补丁
+   ============================================================= */
+
+/* —— ① 卡片强制按内容高度撑开，杜绝被网格/缓存样式压成扁条 —— */
+#enhCodexView .codex-card {
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
+  align-self: start !important;
+  overflow: hidden;
+}
+#enhCodexView .codex-card .codex-desc,
+#enhCodexView .codex-card .codex-mech { display: block !important; }
+#enhCodexView .codex-card .codex-stats { display: grid !important; }
+
+/* —— ①b 共鸣页分组：整宽容器纵向堆叠，卡片在分组内部独立三列网格。
+   内层网格只含统一卡片、无跨列标题 → 隐式行高永远按最高卡片计算，物理上不会重叠 —— */
+#enhCodexView .res-section { grid-column: 1 / -1; min-width: 0; margin-bottom: 16px; }
+#enhCodexView .res-section > .resonance-section-header { margin: 0 0 10px; }
+#enhCodexView .res-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  align-items: start;
+}
+@media (max-width: 1100px) { #enhCodexView .res-cards { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 720px)  { #enhCodexView .res-cards { grid-template-columns: 1fr; } }
+
+/* —— ② 卡片底板加深到近乎不透明，描述/条件/加成文字清晰可读 —— */
+#enhCodexView .codex-card {
+  background: linear-gradient(160deg, rgba(30, 40, 84, 0.97), rgba(14, 17, 38, 0.98)) !important;
+  border-color: rgba(120, 160, 255, 0.4) !important;
+}
+#enhCodexView .codex-card.rare {
+  background: linear-gradient(160deg, rgba(120, 72, 24, 0.97), rgba(38, 20, 8, 0.98)) !important;
+  border-color: rgba(255, 180, 80, 0.6) !important;
+}
+#enhCodexView .codex-card.awake {
+  background: linear-gradient(160deg, rgba(82, 24, 128, 0.97), rgba(26, 6, 38, 0.98)) !important;
+  border-color: rgba(234, 128, 252, 0.6) !important;
+}
+#enhCodexView .codex-name { color: #ffffff !important; }
+#enhCodexView .codex-desc {
+  color: #dfe7fb !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  border-left-color: #82e9ff !important;
+}
+#enhCodexView .codex-stat-label { color: #9db4e8 !important; }
+#enhCodexView .codex-stat-value { color: #eef3ff !important; }
+#enhCodexView .codex-mech { background: rgba(255, 224, 130, 0.1); border-color: rgba(255, 224, 130, 0.4); }
+#enhCodexView .codex-mech-text { color: #f2e7c8 !important; }
+
+/* —— ③ Tab 胶囊：羊皮纸上改深棕底 + 米白字，选中态金色高亮 —— */
+#enhCodexView .ctab {
+  background: rgba(64, 42, 16, 0.82) !important;
+  color: #f3e7cf !important;
+  border: 1.5px solid rgba(122, 84, 38, 0.7) !important;
+}
+#enhCodexView .ctab:hover { border-color: #ffd166 !important; color: #ffe9b8 !important; }
+#enhCodexView .ctab.active {
+  background: linear-gradient(135deg, #8a5314, #c08024) !important;
+  color: #fff7e6 !important;
+  border-color: #ffd166 !important;
+  box-shadow: 0 0 12px rgba(255, 200, 110, 0.45);
+}
+
+/* —— ④ 副标题说明：浅色胶囊改深字 + 米白半透明底 —— */
+#enhCodexView .codex-sub {
+  color: #57401f !important;
+  background: rgba(255, 247, 228, 0.62) !important;
+  border-color: rgba(122, 84, 38, 0.4) !important;
+}
+
+/* —— ⑤ 共鸣分组标题（相生/相克/同系/相济）：加米白底，彩色标题清晰 —— */
+#enhCodexView .resonance-section-header,
+#enhCodexView .enh-group-header {
+  background: rgba(255, 247, 228, 0.66);
+  border-radius: 8px;
+  padding: 7px 14px !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+/* —— ⑥ 返回主菜单按钮：羊皮纸上加深底浅字 —— */
+#enhCodexView .btn.ghost {
+  background: rgba(64, 42, 16, 0.82) !important;
+  color: #f3e7cf !important;
+  border-color: rgba(122, 84, 38, 0.7) !important;
+}
+#enhCodexView .btn.ghost:hover { border-color: #ffd166 !important; color: #ffe9b8 !important; }
+
+/* =============================================================
+   ☯ 强化图鉴 · 五行职业天赋树
+   金木水火土五列同屏：职业为树根，五行色枝干分段贯穿，
+   稀有 → 史诗 → 传说 三层竖向挂果（无需切页即可纵览五系）
+   ============================================================= */
+/* tree-mode：外层网格退化为块容器，内部 .etree 自行五列布局 */
+#enhCodexView .codex-grid.tree-mode {
+  display: block;
+  max-width: 1320px;
+  width: 100%;
+  max-height: 520px;
+}
+#enhCodexView .etree {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px 12px;
+  padding: 6px 8px 24px;
+  align-items: start;
+}
+.etree-col {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
+}
+/* —— 树根：职业节点（五行色描边 + 内发光） —— */
+.etree-root {
+  position: relative;
+  z-index: 2;
+  align-self: center;
+  width: calc(100% - 14px);
+  max-width: 190px;
+  text-align: center;
+  padding: 12px 10px 10px;
+  border-radius: 16px;
+  background: linear-gradient(160deg, var(--ec-faint), rgba(16, 20, 40, 0.94));
+  border: 2px solid var(--ec-soft);
+  box-shadow: 0 0 18px var(--ec-faint), inset 0 0 14px var(--ec-faint);
+}
+.etree-root-icon { font-size: 34px; line-height: 1; filter: drop-shadow(0 0 8px var(--ec-soft)); }
+.etree-root-name { margin-top: 7px; font-size: 15px; font-weight: 800; color: var(--ec); letter-spacing: 1px; }
+.etree-root-sub { margin-top: 2px; font-size: 11px; color: #a9b9db; letter-spacing: 3px; }
+.etree-root-count {
+  margin-top: 7px; padding-top: 6px;
+  font-size: 10.5px; color: #c8d4f2; letter-spacing: 0.5px;
+  border-top: 1px dashed var(--ec-soft);
+}
+/* 树根向下的引枝 */
+.etree-root::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -13px;
+  width: 2px;
+  height: 13px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, var(--ec), var(--ec-soft));
+  box-shadow: 0 0 6px var(--ec-soft);
+  z-index: 1;
+}
+/* —— 层间连接器：竖线 + 末端茎节圆点 —— */
+.etree-connector {
+  position: relative;
+  z-index: 1;
+  align-self: center;
+  width: 2px;
+  height: 22px;
+  margin: 2px 0;
+  background: linear-gradient(180deg, var(--ec-soft), var(--ec));
+  box-shadow: 0 0 6px var(--ec-soft);
+}
+.etree-connector::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background: var(--ec);
+  box-shadow: 0 0 10px var(--ec), 0 0 3px #ffffffaa inset;
+}
+/* —— 稀有度层：标签为枝节徽章，卡片为竖向果实 —— */
+.etree-tier {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 9px;
+}
+.etree-tier-label {
+  align-self: center;
+  position: relative;
+  z-index: 2;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  padding: 3px 16px 3px 14px;
+  border-radius: 999px;
+  background: rgba(14, 18, 38, 0.95);
+  border: 1px solid;
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
+.etree-tier-rare .etree-tier-label   { color: #82e9ff; border-color: rgba(130, 233, 255, 0.55); box-shadow: 0 0 10px rgba(130, 233, 255, 0.20); }
+.etree-tier-epic .etree-tier-label   { color: #c99dff; border-color: rgba(201, 157, 255, 0.55); box-shadow: 0 0 10px rgba(201, 157, 255, 0.22); }
+.etree-tier-legend .etree-tier-label { color: #ffd166; border-color: rgba(255, 209, 102, 0.60); box-shadow: 0 0 12px rgba(255, 209, 102, 0.25); }
+/* 节点：每张卡片顶部中央留短接线，与上层枝节/卡片连成一线 */
+.etree-node { position: relative; }
+.etree-node::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  width: 2px;
+  height: 10px;
+  transform: translateX(-50%);
+  background: var(--ec-soft);
+  z-index: 0;
+}
+/* —— 树内卡片紧凑化：五列窄栏下保持与怪物图鉴同级的信息密度 —— */
+#enhCodexView .etree .codex-card { padding: 8px 9px 9px; border-radius: 12px; }
+#enhCodexView .etree .codex-card-header { gap: 7px; }
+#enhCodexView .etree .codex-sprite {
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  border-radius: 8px !important;
+  font-size: 21px !important;
+}
+#enhCodexView .etree .codex-name { font-size: 12px; gap: 4px; line-height: 1.35; }
+#enhCodexView .etree .codex-name > span:first-child { font-size: 12.5px; }
+#enhCodexView .etree .enh-rarity { font-size: 9.5px; padding: 1px 7px; }
+#enhCodexView .etree .codex-tags { margin-top: 2px; gap: 4px; }
+#enhCodexView .etree .codex-type-tag { font-size: 9px; padding: 1px 5px; }
+#enhCodexView .etree .codex-desc {
+  min-height: 0 !important;
+  margin: 6px 0 4px;
+  padding: 5px 7px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+#enhCodexView .etree .codex-stats { gap: 3px; margin-top: 4px; }
+#enhCodexView .etree .codex-stat-label { min-width: 44px; flex: 0 0 44px; font-size: 10.5px; }
+#enhCodexView .etree .codex-stat-value { font-size: 10.5px; line-height: 1.45; }
+#enhCodexView .etree .codex-mech { margin-top: 6px; padding: 5px 8px; }
+#enhCodexView .etree .codex-mech-title { font-size: 10px; margin-bottom: 3px; }
+#enhCodexView .etree .codex-mech-text { font-size: 10.5px; line-height: 1.5; }
+/* —— 响应式：宽屏五列同览，中屏三列、窄屏两列、手机单列（仍保持同页树状） —— */
+@media (max-width: 1280px) {
+  #enhCodexView .etree { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 860px) {
+  #enhCodexView .etree { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  #enhCodexView .etree { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+}

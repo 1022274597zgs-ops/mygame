@@ -609,6 +609,8 @@ canvas { position: absolute; inset: 0px; width: 1280px; height: 720px; backgroun
 .choice-card.evo:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(255, 209, 102, 0.5) 0px 0px 36px; }
 .choice-card.awakened { border-color: rgb(201, 168, 255); background: linear-gradient(160deg, rgba(72, 42, 120, 0.55), rgba(24, 14, 50, 0.82)); box-shadow: rgba(180, 120, 255, 0.25) 0px 0px 24px; }
 .choice-card.awakened:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(180, 120, 255, 0.5) 0px 0px 36px; }
+.choice-card.filler-up { border-color: rgb(158, 211, 106); background: linear-gradient(160deg, rgba(48, 82, 40, 0.55), rgba(18, 34, 16, 0.82)); box-shadow: rgba(158, 211, 106, 0.22) 0px 0px 24px; }
+.choice-card.filler-up:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(158, 211, 106, 0.5) 0px 0px 36px; }
 .choice-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 14px; background: rgba(130, 160, 255, 0.2); border: 1px solid rgba(160, 190, 255, 0.4); }
 .choice-name { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
 .choice-desc { font-size: 12.5px; color: rgb(169, 185, 219); line-height: 1.55; }
@@ -1009,6 +1011,8 @@ canvas { position: absolute; inset: 0px; width: 1280px; height: 720px; backgroun
 .choice-card.evo:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(255, 209, 102, 0.5) 0px 0px 36px; }
 .choice-card.awakened { border-color: rgb(201, 168, 255); background: linear-gradient(160deg, rgba(72, 42, 120, 0.55), rgba(24, 14, 50, 0.82)); box-shadow: rgba(180, 120, 255, 0.25) 0px 0px 24px; }
 .choice-card.awakened:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(180, 120, 255, 0.5) 0px 0px 36px; }
+.choice-card.filler-up { border-color: rgb(158, 211, 106); background: linear-gradient(160deg, rgba(48, 82, 40, 0.55), rgba(18, 34, 16, 0.82)); box-shadow: rgba(158, 211, 106, 0.22) 0px 0px 24px; }
+.choice-card.filler-up:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(158, 211, 106, 0.5) 0px 0px 36px; }
 .choice-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 14px; background: rgba(130, 160, 255, 0.2); border: 1px solid rgba(160, 190, 255, 0.4); }
 .choice-name { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
 .choice-desc { font-size: 12.5px; color: rgb(169, 185, 219); line-height: 1.55; }
@@ -1329,6 +1333,8 @@ canvas { position: absolute; inset: 0px; width: 1280px; height: 720px; backgroun
 .choice-card.evo:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(255, 209, 102, 0.5) 0px 0px 36px; }
 .choice-card.awakened { border-color: rgb(201, 168, 255); background: linear-gradient(160deg, rgba(72, 42, 120, 0.55), rgba(24, 14, 50, 0.82)); box-shadow: rgba(180, 120, 255, 0.25) 0px 0px 24px; }
 .choice-card.awakened:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(180, 120, 255, 0.5) 0px 0px 36px; }
+.choice-card.filler-up { border-color: rgb(158, 211, 106); background: linear-gradient(160deg, rgba(48, 82, 40, 0.55), rgba(18, 34, 16, 0.82)); box-shadow: rgba(158, 211, 106, 0.22) 0px 0px 24px; }
+.choice-card.filler-up:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(158, 211, 106, 0.5) 0px 0px 36px; }
 .choice-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 14px; background: rgba(130, 160, 255, 0.2); border: 1px solid rgba(160, 190, 255, 0.4); }
 .choice-name { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
 .choice-desc { font-size: 12.5px; color: rgb(169, 185, 219); line-height: 1.55; }
@@ -3117,6 +3123,42 @@ html body.landscape-ui .zone-header .tagline { font-size: 9px; letter-spacing: 1
 @media (max-width: 1100px) { #enhCodexView .res-cards { grid-template-columns: repeat(2, minmax(0,1fr)); } }
 @media (max-width: 720px)  { #enhCodexView .res-cards { grid-template-columns: 1fr; } }
 
+/* —— 共鸣页 · 视图切换（按职业 / 按关系） —— */
+#enhCodexView .res-view-toggle { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 2px; }
+#enhCodexView .rvt-btn {
+  background: rgba(64, 42, 16, 0.82); color: #f3e7cf;
+  border: 1.5px solid rgba(122, 84, 38, 0.7); border-radius: 999px;
+  padding: 5px 16px; font-size: 12.5px; font-weight: 700; letter-spacing: 1px; cursor: pointer;
+}
+#enhCodexView .rvt-btn:hover { border-color: #ffd166; color: #ffe9b8; }
+#enhCodexView .rvt-btn.on {
+  background: linear-gradient(135deg, #8a5314, #c08024); color: #fff7e6; border-color: #ffd166;
+  box-shadow: 0 0 12px rgba(255, 200, 110, 0.45);
+}
+#enhCodexView .rvt-hint { font-size: 11.5px; color: #57401f; opacity: 0.85; }
+
+/* —— 共鸣页 · 按职业视图：职业分节头 + 8 条有序共鸣行 —— */
+#enhCodexView .res-prof-header { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+#enhCodexView .res-prof-sub { font-size: 11.5px; font-weight: 600; letter-spacing: 0.5px; color: #6b5426; }
+#enhCodexView .res-rows { display: flex; flex-direction: column; gap: 8px; }
+#enhCodexView .res-row {
+  display: grid; grid-template-columns: 96px 1fr; gap: 10px; align-items: stretch;
+  background: linear-gradient(160deg, rgba(30, 40, 84, 0.97), rgba(14, 17, 38, 0.98));
+  border: 1px solid rgba(120, 160, 255, 0.35);
+  border-left: 3px solid var(--kc, #82e9ff);
+  border-radius: 8px; padding: 8px 12px;
+}
+#enhCodexView .res-dir {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  border: 1px solid; border-radius: 8px; padding: 6px 4px; background: rgba(255, 255, 255, 0.05);
+}
+#enhCodexView .res-dir-tag { font-size: 14px; font-weight: 800; letter-spacing: 2px; }
+#enhCodexView .res-dir-partner { font-size: 11px; color: #cdd9f5; white-space: nowrap; }
+#enhCodexView .res-row-main { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
+#enhCodexView .res-row-name { font-size: 14px; font-weight: 800; color: #ffffff; }
+#enhCodexView .res-row-bonus { font-size: 11.5px; color: #ffd166; margin-top: 2px; }
+#enhCodexView .res-row-eff { font-size: 12.5px; color: #dfe7fb; line-height: 1.6; margin-top: 3px; }
+
 /* —— ② 卡片底板加深到近乎不透明，描述/条件/加成文字清晰可读 —— */
 #enhCodexView .codex-card {
   background: linear-gradient(160deg, rgba(30, 40, 84, 0.97), rgba(14, 17, 38, 0.98)) !important;
@@ -3162,7 +3204,7 @@ html body.landscape-ui .zone-header .tagline { font-size: 9px; letter-spacing: 1
   border-color: rgba(122, 84, 38, 0.4) !important;
 }
 
-/* —— ⑤ 共鸣分组标题（相生/相克/同系/相济）：加米白底，彩色标题清晰 —— */
+/* —— ⑤ 共鸣分组标题（相生/相克/相乘/相侮）：加米白底，彩色标题清晰 —— */
 #enhCodexView .resonance-section-header,
 #enhCodexView .enh-group-header {
   background: rgba(255, 247, 228, 0.66);
@@ -3330,13 +3372,109 @@ html body.landscape-ui .zone-header .tagline { font-size: 9px; letter-spacing: 1
 #enhCodexView .etree .codex-mech { margin-top: 6px; padding: 5px 8px; }
 #enhCodexView .etree .codex-mech-title { font-size: 10px; margin-bottom: 3px; }
 #enhCodexView .etree .codex-mech-text { font-size: 10.5px; line-height: 1.5; }
-/* —— 响应式：宽屏五列同览，中屏三列、窄屏两列、手机单列（仍保持同页树状） —— */
-@media (max-width: 1280px) {
-  #enhCodexView .etree { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+/* —— 金木水火土五列始终同排：五个职业树根恒定处于同一水平线 ——
+   注意：竖屏舞台是 720px 虚拟设计宽（再整体等比缩放到屏幕），
+   不能按真实窗口宽度折行——否则窄屏下树根会被媒体查询折成单列/双列，
+   故此处恒定五列，不再做 3/2/1 列降级 */
+#enhCodexView .etree { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+/* 竖屏：五列树需要更宽的横向空间，树容器放宽到 700 虚拟px（普通图鉴网格仍限宽 560） */
+body.portrait-ui.menu-parchment #enhCodexView .codex-grid.tree-mode { max-width: 700px !important; }
+body.portrait-ui.menu-parchment #enhCodexView .etree {
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 12px 8px; padding: 6px 4px 20px;
 }
-@media (max-width: 860px) {
-  #enhCodexView .etree { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* 竖屏树根紧凑化：内容五系等长（图标/名字/门派/计数），收紧后五根等宽等高、顶部齐平 */
+body.portrait-ui.menu-parchment #enhCodexView .etree-root { width: calc(100% - 10px); padding: 10px 6px 8px; }
+body.portrait-ui.menu-parchment #enhCodexView .etree-root-icon { font-size: 28px; }
+body.portrait-ui.menu-parchment #enhCodexView .etree-root-name { font-size: 13px; margin-top: 6px; letter-spacing: 0.5px; }
+body.portrait-ui.menu-parchment #enhCodexView .etree-root-sub { font-size: 10px; letter-spacing: 2px; }
+body.portrait-ui.menu-parchment #enhCodexView .etree-root-count { font-size: 9.5px; margin-top: 6px; padding-top: 5px; }
+
+/* =============================================================
+   ⚡ 人物介绍面板（羊皮纸 jieshao 面板）· 终极进化
+   不改变简介区（#menuPortraitDesc 保持注入样式的原位 61.5%/14.3%）；
+   进化仅作为原介绍区第二行的单行文本出现（与历史静态版式一致），
+   完整觉醒条件/跨界/加成请见强化图鉴「⚡终极进化」页签。
+   ============================================================= */
+#menuPortraitEvo { text-align: center; }
+#menuPortraitEvo:empty { display: none; }
+.mp-evo-line { font-size: 12px; line-height: 1.4; font-weight: 700; color: #201206; }
+
+/* 介绍文字微调：不改变注入框位置（top61.5%/height14.3%）；简介靠上对齐、字号与第二行一致，下移贴近进化行 */
+#menuPortraitInfo #menuPortraitDesc {
+  align-items: flex-start !important;
+  padding-top: 20px !important;
+  font-size: 11.5px !important; line-height: 1.25 !important;
 }
-@media (max-width: 560px) {
-  #enhCodexView .etree { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+
+/* 羊皮纸绝对定位：单行进化文本随简介联动，保持两行紧凑，简介区本身不做任何改动 */
+#menuPortraitInfo #menuPortraitEvo {
+  position: absolute !important;
+  left: 6% !important; right: 6% !important;
+  top: 68.3% !important; height: 3.4% !important;
+  margin: 0 !important; padding: 0 !important;
+  display: flex !important; align-items: center !important; justify-content: center !important;
+  overflow: hidden !important; text-align: center !important;
+  font-family: 'Noto Serif SC','Source Han Serif SC','STZhongsong','Songti SC','STSong','SimSun',serif !important;
 }
+#menuPortraitInfo #menuPortraitEvo .mp-evo-line {
+  font-size: 11.5px !important; line-height: 1.2 !important; font-weight: 700 !important;
+  color: #2f1808 !important; text-shadow: 0 0 2px rgba(255, 243, 214, .3) !important;
+  white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important;
+  max-width: 100% !important;
+}
+
+/* —— 竖屏（560px 高羊皮纸大面板）：字号随面板等比放大，位置百分比不变 —— */
+html body.portrait-ui.menu-parchment #mainMenuView #menuPortraitInfo #menuPortraitDesc {
+  padding-top: 18px !important;
+  font-size: 13px !important;
+}
+html body.portrait-ui.menu-parchment #mainMenuView #menuPortraitInfo #menuPortraitEvo .mp-evo-line {
+  font-size: 13px !important;
+}
+
+/* =============================================================
+   ⚡ 强化图鉴 · 终极进化卡片补充样式
+   ============================================================= */
+.evo-alt-text { margin-top: 3px; font-size: 10.5px; line-height: 1.5; color: #cbb6f2; }
+#enhCodexView .evo-alt-text { color: #d9c9f8 !important; }
+/* 觉醒三途：本途（金）/ 共鸣途（相生绿）/ 跨界途（紫，沿用上方） */
+.evo-main-text { font-size: 11.5px; line-height: 1.5; color: #ffe9a8; }
+#enhCodexView .evo-main-text { color: #ffe9a8 !important; }
+#enhCodexView .evo-res-text { color: #b9e89a !important; }
+.evo-res-text { color: #b9e89a; }
+
+/* 竖屏：5 个图鉴页签两行排列，避免挤压 */
+body.portrait-ui.menu-parchment #enhCodexView .codex-tabs {
+  flex-wrap: wrap !important; gap: 5px !important; margin: 0 0 8px !important;
+}
+body.portrait-ui.menu-parchment #enhCodexView .ctab {
+  flex: 1 1 30% !important; min-width: 0 !important; min-height: 32px !important;
+  padding: 6px 4px !important; font-size: 11px !important; letter-spacing: .5px !important;
+  white-space: nowrap !important; display: flex !important; align-items: center !important; justify-content: center !important;
+}
+/* —— 共鸣词条 · 实机特效演示弹层 —— */
+#resDemoModal { position: absolute; inset: 0; background: rgba(4,6,16,0.78); backdrop-filter: blur(3px); display: none; align-items: center; justify-content: center; z-index: 200; }
+#resDemoModal.show { display: flex; }
+#resDemoModal .res-demo-panel { background: linear-gradient(160deg, #1e2854, #0e1126); border: 1px solid rgba(120,160,255,0.5); border-radius: 14px; padding: 14px 16px; box-shadow: 0 12px 60px rgba(0,0,0,0.6); }
+#resDemoModal .res-demo-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+#resDemoModal .res-demo-title { font-size: 16px; font-weight: 800; color: #e6edff; }
+#resDemoModal .res-demo-close { cursor: pointer; color: #8ea0c9; font-size: 15px; padding: 2px 9px; border: 1px solid rgba(142,160,201,0.4); border-radius: 6px; }
+#resDemoModal .res-demo-close:hover { color: #fff; border-color: #fff; }
+#resDemoModal .res-demo-stage { position: relative; width: 640px; max-width: 82vw; aspect-ratio: 16 / 9; margin: 0; border-radius: 10px; overflow: hidden; background: #080a18; border: 1px solid rgba(120,160,255,0.25); }
+#resDemoModal .res-demo-stage canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; margin: 0; border: 0; border-radius: 0; background: transparent; image-rendering: auto; }
+#resDemoModal .res-demo-hint { margin-top: 8px; font-size: 11px; color: #8ea0c9; text-align: center; }
+#evoDemoModal { position: absolute; inset: 0; background: rgba(4,6,16,0.78); backdrop-filter: blur(3px); display: none; align-items: center; justify-content: center; z-index: 200; }
+#evoDemoModal.show { display: flex; }
+#evoDemoModal .res-demo-panel { background: linear-gradient(160deg, #1e2854, #0e1126); border: 1px solid rgba(120,160,255,0.5); border-radius: 14px; padding: 14px 16px; box-shadow: 0 12px 60px rgba(0,0,0,0.6); }
+#evoDemoModal .res-demo-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+#evoDemoModal .res-demo-title { font-size: 16px; font-weight: 800; color: #e6edff; }
+#evoDemoModal .res-demo-close { cursor: pointer; color: #8ea0c9; font-size: 15px; padding: 2px 9px; border: 1px solid rgba(142,160,201,0.4); border-radius: 6px; }
+#evoDemoModal .res-demo-close:hover { color: #fff; border-color: #fff; }
+#evoDemoModal .res-demo-stage { position: relative; width: 640px; max-width: 82vw; aspect-ratio: 16 / 9; margin: 0; border-radius: 10px; overflow: hidden; background: #080a18; border: 1px solid rgba(120,160,255,0.25); }
+#evoDemoModal .res-demo-stage canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; margin: 0; border: 0; border-radius: 0; background: transparent; image-rendering: auto; }
+#evoDemoModal .res-demo-hint { margin-top: 8px; font-size: 11px; color: #8ea0c9; text-align: center; }
+.res-demo-btn { margin-top: 8px; display: inline-block; cursor: pointer; font-size: 12px; font-weight: 700; color: #7afcff; border: 1px solid rgba(122,252,255,0.45); border-radius: 6px; padding: 4px 12px; }
+.res-demo-btn:hover { background: rgba(122,252,255,0.12); }
+.res-row-demo { cursor: pointer; font-size: 11px; color: #7afcff; border: 1px solid rgba(122,252,255,0.45); border-radius: 6px; padding: 1px 7px; white-space: nowrap; }
+.res-row-demo:hover { background: rgba(122,252,255,0.12); }

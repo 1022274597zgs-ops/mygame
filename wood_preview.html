@@ -1,0 +1,225 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>wood sprites preview</title>
+<style>
+  body{background:#2a2f26;font:12px/1.4 monospace;color:#eee;margin:12px}
+  h2{color:#ffd;border-bottom:1px solid #556;padding:4px 0;margin:14px 0 8px}
+  .cell{display:inline-block;margin:5px;padding:4px;background:#1c201a;border-radius:4px;vertical-align:top;text-align:center}
+  .sw{display:inline-block;vertical-align:bottom;position:relative;overflow:hidden;border:1px solid #000}
+  .grass{background:#4d6b38}
+  .dark{background:#202020}
+  .lab{color:#9fd08a;margin-top:3px;white-space:nowrap}
+</style>
+<div id="out">loading js/main.js ...</div>
+<script>
+var MAXSHOW = 150; /* 显示上限（等比缩小，不影响实际精灵） */
+
+/* ===== 预览页自带算法实现（与 main.js 中 _woodSpriteEdgeClean / _woodExtractSprites 逻辑保持同步） =====
+   说明：不从 main.js 抓取源码 eval 执行——若 main.js 被篡改，eval 会执行任意恶意代码。
+   此处只从 main.js 提取纯数据（base64 字符串）并用 JSON.parse 解析，代码逻辑全部内置。 */
+
+/* 对应 main.js _woodSpriteEdgeClean：毛刺腐蚀 + 边缘羽化 + 边缘色去污染 */
+function edgeClean(cv){
+  var w=cv.width,h=cv.height,g=cv.getContext('2d');
+  var im=g.getImageData(0,0,w,h),d=im.data;
+  var a=new Uint8Array(w*h),na=new Uint8Array(w*h),i,x,y,dx,dy;
+  for(i=0;i<w*h;i++) a[i]=d[i*4+3];
+  for(y=0;y<h;y++)for(x=0;x<w;x++){
+    i=y*w+x;
+    if(!a[i]){na[i]=0;continue;}
+    var op=0;
+    for(dy=-1;dy<=1;dy++)for(dx=-1;dx<=1;dx++){
+      var xx=x+dx,yy=y+dy;
+      if(xx<0||yy<0||xx>=w||yy>=h) continue;
+      if(a[yy*w+xx])op++;
+    }
+    if(op<4){na[i]=0;continue;}
+    na[i]=op>=9?255:Math.round(255*op/9);
+  }
+  for(y=0;y<h;y++)for(x=0;x<w;x++){
+    i=y*w+x;
+    var j=i*4;
+    if(!na[i]){d[j+3]=0;continue;}
+    if(na[i]<255){
+      var sr=0,sg2=0,sb=0,sn=0;
+      for(var ry=-3;ry<=3;ry++)for(var rx=-3;rx<=3;rx++){
+        var qx=x+rx,qy=y+ry;
+        if(qx<0||qy<0||qx>=w||qy>=h)continue;
+        var qi=qy*w+qx;
+        if(na[qi]===255){var qj=qi*4;sr+=d[qj];sg2+=d[qj+1];sb+=d[qj+2];sn++;}
+      }
+      if(sn){
+        var t=0.7;
+        d[j]=Math.round(d[j]*(1-t)+(sr/sn)*t);
+        d[j+1]=Math.round(d[j+1]*(1-t)+(sg2/sn)*t);
+        d[j+2]=Math.round(d[j+2]*(1-t)+(sb/sn)*t);
+      }
+    }
+    d[j+3]=na[i];
+  }
+  g.putImageData(im,0,0);
+}
+
+/* 对应 main.js _woodExtractSprites：连通域分析提取精灵（pools 参数化，不依赖全局） */
+function extractSprites(img,type,pools){
+  var N=img.naturalWidth||512, M=img.naturalHeight||N;
+  if(!N||!M) return;
+  var cv=document.createElement('canvas'); cv.width=N; cv.height=M;
+  var g=cv.getContext('2d'); g.drawImage(img,0,0);
+  var data=g.getImageData(0,0,N,M).data;
+  var total=N*M, i;
+  var mask=new Uint8Array(total);
+  var transCnt=0;
+  for(i=0;i<total;i++){ if(data[i*4+3]<48) transCnt++; }
+  if(transCnt>total*0.05){
+    for(i=0;i<total;i++) mask[i]=data[i*4+3]>=48?1:0;
+  } else {
+    var c1=[data[0],data[1],data[2]];
+    var c2=[data[4],data[5],data[6]];
+    var dC=Math.abs(c1[0]-c2[0])+Math.abs(c1[1]-c2[1])+Math.abs(c1[2]-c2[2]);
+    if(dC>20){
+      var TH=55;
+      for(i=0;i<total;i++){
+        var r=data[i*4],gn=data[i*4+1],b=data[i*4+2];
+        var d1=Math.abs(r-c1[0])+Math.abs(gn-c1[1])+Math.abs(b-c1[2]);
+        var d2=Math.abs(r-c2[0])+Math.abs(gn-c2[1])+Math.abs(b-c2[2]);
+        mask[i]=(d1<TH||d2<TH)?0:1;
+      }
+    } else {
+      for(i=0;i<total;i++){
+        var lum=0.299*data[i*4]+0.587*data[i*4+1]+0.114*data[i*4+2];
+        mask[i]=lum<190?1:0;
+      }
+    }
+  }
+  var visited=new Uint8Array(total);
+  var labels=new Int32Array(total);
+  var nextLabel=0;
+  var comps=[];
+  var stk=new Int32Array(total*2); var sp=0;
+  var sx,sy,x,y,idx,count,minX,maxX,minY,maxY;
+  for(sy=0;sy<M;sy++){
+    for(sx=0;sx<N;sx++){
+      var si=sy*N+sx;
+      if(mask[si]===0||visited[si]) continue;
+      var label=++nextLabel;
+      minX=maxX=sx; minY=maxY=sy; count=0; sp=0;
+      stk[sp++]=sx; stk[sp++]=sy; visited[si]=1;
+      while(sp>0){
+        y=stk[--sp]; x=stk[--sp]; idx=y*N+x;
+        count++;
+        if(x<minX)minX=x; if(x>maxX)maxX=x;
+        if(y<minY)minY=y; if(y>maxY)maxY=y;
+        labels[idx]=label;
+        if(x>0&&!visited[idx-1]&&mask[idx-1]){visited[idx-1]=1;stk[sp++]=x-1;stk[sp++]=y;}
+        if(x<N-1&&!visited[idx+1]&&mask[idx+1]){visited[idx+1]=1;stk[sp++]=x+1;stk[sp++]=y;}
+        if(y>0&&!visited[idx-N]&&mask[idx-N]){visited[idx-N]=1;stk[sp++]=x;stk[sp++]=y-1;}
+        if(y<M-1&&!visited[idx+N]&&mask[idx+N]){visited[idx+N]=1;stk[sp++]=x;stk[sp++]=y+1;}
+      }
+      comps.push({label:label,minX:minX,maxX:maxX,minY:minY,maxY:maxY,count:count});
+    }
+  }
+  var poolKey=(type==='daisy')?'flower':type;
+  var pool=pools[poolKey];
+  if(!pool) return;
+  var maxDim=Math.max(N,M);
+  for(var ci=0;ci<comps.length;ci++){
+    var comp=comps[ci];
+    if(comp.count<80) continue;
+    var w=comp.maxX-comp.minX+1, h=comp.maxY-comp.minY+1;
+    if(w<12||h<12) continue;
+    if(comp.minX>maxDim*0.80 && comp.minY>maxDim*0.80) continue;
+    if(w>8*h && comp.count<w*h*0.35) continue;
+    var scv=document.createElement('canvas'); scv.width=w; scv.height=h;
+    var sg=scv.getContext('2d');
+    var sdata=sg.createImageData(w,h); var sd=sdata.data;
+    var cx,cy,si2,di2;
+    for(cy=comp.minY;cy<=comp.maxY;cy++){
+      for(cx=comp.minX;cx<=comp.maxX;cx++){
+        si2=(cy*N+cx)*4;
+        di2=((cy-comp.minY)*w+(cx-comp.minX))*4;
+        if(labels[cy*N+cx]===comp.label){
+          sd[di2]=data[si2]; sd[di2+1]=data[si2+1]; sd[di2+2]=data[si2+2]; sd[di2+3]=255;
+        }
+      }
+    }
+    sg.putImageData(sdata,0,0);
+    edgeClean(scv);
+    pool.push({cv:scv,w:w,h:h,feetY:h});
+  }
+}
+
+async function main(){
+  var out = document.getElementById('out');
+  var src = await (await fetch('js/main.js')).text();
+
+  /* 1) 从 main.js 提取 _WOOD_DECOR_SRC 纯数据（base64 字符串），JSON.parse 解析，不执行任何代码 */
+  var m = src.match(/const _WOOD_DECOR_SRC = \{([\s\S]*?)\n\};/);
+  if(!m){ out.textContent='WOOD_DECOR_SRC not found'; return; }
+  var WOOD_DECOR_SRC = {};
+  var pairRe = /"(\w+)":\s*"([^"]*)"/g;
+  var pm;
+  while((pm = pairRe.exec(m[1]))){
+    /* 值为 data:image/png;base64,xxx 纯文本（不含引号/反斜杠），构造 JSON 字符串校验解析 */
+    try{ WOOD_DECOR_SRC[pm[1]] = JSON.parse('{"v":"'+pm[2]+'"}').v; }catch(e){ console.error('bad pair', pm[1]); }
+  }
+  if(!Object.keys(WOOD_DECOR_SRC).length){ out.textContent='WOOD_DECOR_SRC parse failed'; return; }
+
+  /* 2) 内置提取逻辑（不经 eval 执行 main.js 源码） */
+  var pools = { tree: [], stump: [], rock: [], flower: [] };
+
+  /* 3) 逐张加载并提取 */
+  out.textContent = '';
+  var keys = Object.keys(WOOD_DECOR_SRC);
+  var order = ['tree','stump','rock','flower'];
+  var labeled = { tree: [], stump: [], rock: [], flower: [] };
+  var done = 0;
+  keys.forEach(function(key){
+    var img = new Image();
+    img.onload = function(){
+      var poolKey = (key==='daisy')?'flower':key;
+      var before = pools[poolKey] ? pools[poolKey].length : 0;
+      try{ extractSprites(img, key, pools); }catch(e){ console.error(e); }
+      var after = pools[poolKey] ? pools[poolKey].length : 0;
+      for(var i=before;i<after;i++) labeled[poolKey].push({id: poolKey+'#'+i, s:pools[poolKey][i]});
+      if(++done===keys.length) render();
+    };
+    img.onerror = function(){ if(++done===keys.length) render(); };
+    img.src = WOOD_DECOR_SRC[key];
+  });
+
+  function render(){
+    var total=0;
+    order.forEach(function(poolKey){
+      var list = labeled[poolKey];
+      if(!list.length) return;
+      var h = document.createElement('h2');
+      h.textContent = poolKey + ' ('+list.length+')';
+      out.appendChild(h);
+      list.forEach(function(it, idx){
+        total++;
+        var s = it.s;
+        var sc = Math.min(1, MAXSHOW/Math.max(s.w,s.h));
+        var dw = Math.round(s.w*sc), dh = Math.round(s.h*sc);
+        var cell = document.createElement('div'); cell.className='cell';
+        /* 草地底 + 深色底 两块对照（检查浅色/深色毛边） */
+        ['grass','dark'].forEach(function(bg){
+          var sw = document.createElement('span'); sw.className='sw '+bg;
+          sw.style.width=dw+'px'; sw.style.height=dh+'px';
+          var cv=document.createElement('canvas'); cv.width=dw; cv.height=dh;
+          var g=cv.getContext('2d'); g.imageSmoothingEnabled=true;
+          g.drawImage(s.cv,0,0,dw,dh);
+          sw.appendChild(cv); cell.appendChild(sw);
+        });
+        var lab=document.createElement('div'); lab.className='lab';
+        lab.textContent = it.id+' '+s.w+'x'+s.h;
+        cell.appendChild(lab);
+        out.appendChild(cell);
+      });
+    });
+    var t=document.createElement('h2'); t.textContent='TOTAL '+total+' sprites';
+    out.insertBefore(t, out.firstChild);
+  }
+}
+main();
+</script>

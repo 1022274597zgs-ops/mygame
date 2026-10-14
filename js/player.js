@@ -1,4 +1,4 @@
-﻿// ===== player.js : 主角/玩家相关代码 =====
+// ===== player.js : 主角/玩家相关代码 =====
 const PLAYER_HIP        = 0.73;   // 髋线占整图比例 (从图顶 y=-64 向下到髋的高度 / 总高 128)
 const PLAYER_LEG_SPLIT  = 0.50;   // 裆部分界比例（原图左→右, 裆在 50% 即中线）
 const PLAYER_LEG_SLICES = 14;     // 每条腿的水平细条数（越高越平滑）
@@ -2555,8 +2555,6 @@ class Player {
     this.bossWindSilence = false; this.bossWindSilenceCd = 15; this.bossWindSilenceDmg = 4.0; this.bossWindSilenceDur = 3;
     this._windKillExp = [];           // 疾风追猎：每层到期时间戳
     // =================== 新三职业 end ===================
-    // 装备系统：头部/胸甲/裤子
-    this.equipment = { head: null, chest: null, legs: null };
     // ☯ 五行命石：开局本系职业自带本系命石 3 级（风·岚无本系，全 0）；副系由局内命石卡填充
     this.elementStones = { metal:0, wood:0, water:0, fire:0, earth:0 };
     const _homeEl = CLASS_ELEMENT[this.classId];
@@ -4008,12 +4006,6 @@ class Player {
       bladeDamageMul: this.bladeDamageMul,
       speedMul: this.speedMul,
       upgradeLevels: JSON.parse(JSON.stringify(this.upgradeLevels || {})),
-      // ⚔️ 局内装备随存档保存（只存 id，读档时从装备池取回并重新生效）
-      equipment: this.equipment ? {
-        head:  this.equipment.head  ? this.equipment.head.id  : null,
-        chest: this.equipment.chest ? this.equipment.chest.id : null,
-        legs:  this.equipment.legs  ? this.equipment.legs.id  : null,
-      } : null,
       x: this.x, y: this.y,
     };
   }
@@ -4155,16 +4147,6 @@ class Player {
     rebuildBlades(this);
     rebuildSummons(this);
     rebuildSwords(this);
-    // ⚔️ 重放已穿戴装备的属性加成：replay 已把全部属性重置为「基础+天赋」，
-    //    装备（head/chest/legs）效果必须重新生效，否则读档后装备等于无效
-    if (this.equipment) {
-      for (const slot of ['head', 'chest', 'legs']) {
-        const it = this.equipment[slot];
-        if (it && typeof it.apply === 'function') {
-          try { it.apply(this); } catch (_) {}
-        }
-      }
-    }
   }
 
   draw() {

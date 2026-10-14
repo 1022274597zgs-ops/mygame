@@ -1,4 +1,4 @@
-﻿// ===== map.js : 地图/关卡/敌人/波次相关代码 =====
+// ===== map.js : 地图/关卡/敌人/波次相关代码 =====
 const MAP_LAYERS = [
   {
     id: 'earth',       element: '戊土', zoneName: '渊底·戊土之狱',
@@ -1263,101 +1263,6 @@ class Magnet {
   }
 }
 
-/* =============================================================
-   BOSS 宝箱（BOSS 击败后掉落，拾取触发 3 选 1 超稀有强化）
-   ============================================================= */
-class Chest {
-  constructor(x, y, isBoss = true) {
-    this.x = x; this.y = y; this.r = 22; this.dead = false;
-    this.pulse = 0;
-    this.isBoss = isBoss;
-  }
-  update(dt, p) {
-    this.pulse += dt * 3;
-    const dx = p.x - this.x, dy = p.y - this.y;
-    const d = Math.hypot(dx, dy);
-    // 宝箱远距离磁吸
-    const pullRange = 200;
-    if (d < pullRange) {
-      const pull = 800;
-      const t = 1 - d / pullRange;
-      this.x += (dx / (d || 1)) * pull * dt * (0.4 + t * 1.0);
-      this.y += (dy / (d || 1)) * pull * dt * (0.4 + t * 1.0);
-    }
-    if (d < p.r + this.r + 4) {
-      this.dead = true;
-      showChestUpgrade(this.isBoss);
-    }
-  }
-  draw() {
-    const bob = Math.sin(this.pulse) * 3;
-    ctx.save();
-    ctx.translate(this.x, this.y + bob);
-    if (this.isBoss) {
-      // —— BOSS 宝箱：金色华丽，更大，红金光环 ——
-      const pulseR = 36 + Math.sin(this.pulse * 1.5) * 6;
-      ctx.beginPath(); ctx.arc(0, 0, pulseR, 0, TAU);
-      ctx.fillStyle = 'rgba(255,107,53,0.15)';
-      ctx.fill();
-      ctx.beginPath(); ctx.arc(0, 0, pulseR - 5, 0, TAU);
-      ctx.fillStyle = 'rgba(255,209,102,0.22)';
-      ctx.fill();
-      const spr = cacheSprite('chest_boss_sprite', 60, g => {
-        // 外框（深红木）
-        g.fillStyle = '#5d2e1f';
-        roundRect(g, -24, -16, 48, 30, 5); g.fill();
-        // 盖子（金红）
-        g.fillStyle = '#c62828';
-        roundRect(g, -26, -25, 52, 14, 5); g.fill();
-        // 金边
-        g.strokeStyle = '#ffd166'; g.lineWidth = 2.5;
-        roundRect(g, -24, -16, 48, 30, 5); g.stroke();
-        g.strokeRect(-26, -12, 52, 2);
-        // 金锁（带宝石）
-        g.fillStyle = '#ffd166';
-        roundRect(g, -6, -7, 12, 12, 2); g.fill();
-        g.fillStyle = '#ff5252';
-        ctx.beginPath(); ctx.arc(0, -1, 3, 0, Math.PI*2); ctx.fill();
-        // 顶部皇冠装饰
-        g.fillStyle = '#ffd166';
-        g.beginPath();
-        g.moveTo(-10, -25); g.lineTo(-7, -30); g.lineTo(-3, -26);
-        g.lineTo(0, -31); g.lineTo(3, -26); g.lineTo(7, -30);
-        g.lineTo(10, -25); g.closePath(); g.fill();
-      });
-      ctx.drawImage(spr, -spr.width / 2, -spr.height / 2);
-    } else {
-      // —— 怪物宝箱：蓝银朴素，较小 ——
-      const pulseR = 26 + Math.sin(this.pulse * 1.5) * 4;
-      ctx.beginPath(); ctx.arc(0, 0, pulseR, 0, TAU);
-      ctx.fillStyle = 'rgba(82,233,255,0.10)';
-      ctx.fill();
-      ctx.beginPath(); ctx.arc(0, 0, pulseR - 3, 0, TAU);
-      ctx.fillStyle = 'rgba(130,170,255,0.16)';
-      ctx.fill();
-      const spr = cacheSprite('chest_normal_sprite', 46, g => {
-        // 外框（深蓝灰）
-        g.fillStyle = '#37474f';
-        roundRect(g, -17, -12, 34, 22, 4); g.fill();
-        // 盖子（钢蓝）
-        g.fillStyle = '#546e7a';
-        roundRect(g, -19, -19, 38, 10, 4); g.fill();
-        // 银边
-        g.strokeStyle = '#82e9ff'; g.lineWidth = 1.5;
-        roundRect(g, -17, -12, 34, 22, 4); g.stroke();
-        g.strokeRect(-19, -9, 38, 1.5);
-        // 银锁
-        g.fillStyle = '#82e9ff';
-        roundRect(g, -4, -5, 8, 8, 2); g.fill();
-        g.fillStyle = '#4fc3f7';
-        g.fillRect(-1, -3, 2, 4);
-      });
-      ctx.drawImage(spr, -spr.width / 2, -spr.height / 2);
-    }
-    ctx.restore();
-  }
-}
-
 class FloatText {
   constructor(x, y, text, color) {
     this.x = x; this.y = y; this.text = text; this.color = color;
@@ -1433,7 +1338,7 @@ function resetGame(classId, diffId) {
   const _runLen = _runWaveEnd - _runStartWave + 1;
   player = new Player(classId || selectedClassId);
   applyAltarToPlayer(player); // ☯ 祭坛永久养成开局生效
-  bullets = []; enemies = []; orbs = []; floats = []; particles = []; slashFx = []; novaFx = []; orbExplosionFx = []; chests = []; magnets = [];
+  bullets = []; enemies = []; orbs = []; floats = []; particles = []; slashFx = []; novaFx = []; orbExplosionFx = []; magnets = [];
   thornZones = []; plantsArr = []; waves = []; swordRains = []; swordTrails = []; bubbleSplashFx = []; frostZones = []; waterTornadoes = [];
   scorchedEarth = []; earthSpikes = []; windBlades = []; windTornadoes = []; windVortexes = []; windChainFx = []; slashJudgmentFx = []; ultimateLava = null; karmaFlash = 0;
   mireTrails = []; earthQuakes = [];   // 🪨 土地图怪物地面特效
@@ -1962,16 +1867,7 @@ function processEnemyDeaths() {
       }
       if (e.isBoss) {
         spawnFloat(e.x, e.y, 'BOSS 击破！', '#ffe082');
-        waveHintText = 'BOSS 击破！掉落专属宝箱'; waveHintTime = 2.0;
-        // ——— BOSS 宝箱掉落 ———
-        chests.push(new Chest(e.x, e.y, true));
-      } else {
-        // ——— 普通怪物击杀掉落宝箱（仅消耗道具） ———
-        // 固定极低掉率 0.05%
-        const chestChance = 0.0005;
-        if (chests.length < 4 && Math.random() < chestChance) {
-          chests.push(new Chest(e.x, e.y, false));
-        }
+        waveHintText = 'BOSS 击破！'; waveHintTime = 2.0;
       }
     }
   }

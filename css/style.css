@@ -611,6 +611,12 @@ canvas { position: absolute; inset: 0px; width: 1280px; height: 720px; backgroun
 .choice-card.awakened:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(180, 120, 255, 0.5) 0px 0px 36px; }
 .choice-card.filler-up { border-color: rgb(158, 211, 106); background: linear-gradient(160deg, rgba(48, 82, 40, 0.55), rgba(18, 34, 16, 0.82)); box-shadow: rgba(158, 211, 106, 0.22) 0px 0px 24px; }
 .choice-card.filler-up:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(158, 211, 106, 0.5) 0px 0px 36px; }
+.choice-card.boss-rare { border-color: rgb(130, 233, 255); background: linear-gradient(160deg, rgba(30, 70, 90, 0.55), rgba(14, 28, 44, 0.82)); box-shadow: rgba(130, 233, 255, 0.22) 0px 0px 24px; }
+.choice-card.boss-rare:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(130, 233, 255, 0.5) 0px 0px 36px; }
+.choice-card.boss-epic { border-color: rgb(201, 168, 255); background: linear-gradient(160deg, rgba(60, 36, 96, 0.55), rgba(24, 14, 50, 0.82)); box-shadow: rgba(201, 168, 255, 0.25) 0px 0px 24px; }
+.choice-card.boss-epic:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(201, 168, 255, 0.5) 0px 0px 36px; }
+.choice-card.boss-legend { border-color: rgb(255, 209, 102); background: linear-gradient(160deg, rgba(90, 66, 24, 0.55), rgba(44, 30, 12, 0.82)); box-shadow: rgba(255, 209, 102, 0.3) 0px 0px 28px; }
+.choice-card.boss-legend:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(255, 209, 102, 0.55) 0px 0px 40px; }
 .choice-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 14px; background: rgba(130, 160, 255, 0.2); border: 1px solid rgba(160, 190, 255, 0.4); }
 .choice-name { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
 .choice-desc { font-size: 12.5px; color: rgb(169, 185, 219); line-height: 1.55; }
@@ -1013,6 +1019,12 @@ canvas { position: absolute; inset: 0px; width: 1280px; height: 720px; backgroun
 .choice-card.awakened:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(180, 120, 255, 0.5) 0px 0px 36px; }
 .choice-card.filler-up { border-color: rgb(158, 211, 106); background: linear-gradient(160deg, rgba(48, 82, 40, 0.55), rgba(18, 34, 16, 0.82)); box-shadow: rgba(158, 211, 106, 0.22) 0px 0px 24px; }
 .choice-card.filler-up:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(158, 211, 106, 0.5) 0px 0px 36px; }
+.choice-card.boss-rare { border-color: rgb(130, 233, 255); background: linear-gradient(160deg, rgba(30, 70, 90, 0.55), rgba(14, 28, 44, 0.82)); box-shadow: rgba(130, 233, 255, 0.22) 0px 0px 24px; }
+.choice-card.boss-rare:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(130, 233, 255, 0.5) 0px 0px 36px; }
+.choice-card.boss-epic { border-color: rgb(201, 168, 255); background: linear-gradient(160deg, rgba(60, 36, 96, 0.55), rgba(24, 14, 50, 0.82)); box-shadow: rgba(201, 168, 255, 0.25) 0px 0px 24px; }
+.choice-card.boss-epic:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(201, 168, 255, 0.5) 0px 0px 36px; }
+.choice-card.boss-legend { border-color: rgb(255, 209, 102); background: linear-gradient(160deg, rgba(90, 66, 24, 0.55), rgba(44, 30, 12, 0.82)); box-shadow: rgba(255, 209, 102, 0.3) 0px 0px 28px; }
+.choice-card.boss-legend:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(255, 209, 102, 0.55) 0px 0px 40px; }
 .choice-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 14px; background: rgba(130, 160, 255, 0.2); border: 1px solid rgba(160, 190, 255, 0.4); }
 .choice-name { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
 .choice-desc { font-size: 12.5px; color: rgb(169, 185, 219); line-height: 1.55; }
@@ -1335,6 +1347,12 @@ canvas { position: absolute; inset: 0px; width: 1280px; height: 720px; backgroun
 .choice-card.awakened:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(180, 120, 255, 0.5) 0px 0px 36px; }
 .choice-card.filler-up { border-color: rgb(158, 211, 106); background: linear-gradient(160deg, rgba(48, 82, 40, 0.55), rgba(18, 34, 16, 0.82)); box-shadow: rgba(158, 211, 106, 0.22) 0px 0px 24px; }
 .choice-card.filler-up:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(158, 211, 106, 0.5) 0px 0px 36px; }
+.choice-card.boss-rare { border-color: rgb(130, 233, 255); background: linear-gradient(160deg, rgba(30, 70, 90, 0.55), rgba(14, 28, 44, 0.82)); box-shadow: rgba(130, 233, 255, 0.22) 0px 0px 24px; }
+.choice-card.boss-rare:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(130, 233, 255, 0.5) 0px 0px 36px; }
+.choice-card.boss-epic { border-color: rgb(201, 168, 255); background: linear-gradient(160deg, rgba(60, 36, 96, 0.55), rgba(24, 14, 50, 0.82)); box-shadow: rgba(201, 168, 255, 0.25) 0px 0px 24px; }
+.choice-card.boss-epic:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(201, 168, 255, 0.5) 0px 0px 36px; }
+.choice-card.boss-legend { border-color: rgb(255, 209, 102); background: linear-gradient(160deg, rgba(90, 66, 24, 0.55), rgba(44, 30, 12, 0.82)); box-shadow: rgba(255, 209, 102, 0.3) 0px 0px 28px; }
+.choice-card.boss-legend:hover { border-color: rgb(255, 255, 255); box-shadow: rgba(255, 209, 102, 0.55) 0px 0px 40px; }
 .choice-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin-bottom: 14px; background: rgba(130, 160, 255, 0.2); border: 1px solid rgba(160, 190, 255, 0.4); }
 .choice-name { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
 .choice-desc { font-size: 12.5px; color: rgb(169, 185, 219); line-height: 1.55; }
